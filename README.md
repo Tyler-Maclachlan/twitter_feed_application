@@ -29,3 +29,10 @@ You can also run :
 **Client:**
 
     cd client && npm run start
+ 
+ ## Tests
+ **Server:**
+ 
+To run tests:
+
+    cd server && npm run test
