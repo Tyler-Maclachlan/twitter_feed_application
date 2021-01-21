@@ -26,15 +26,20 @@ export default function UserTweets({ user }: UserTweetsProps) {
 
     }, [user, getTweets]);
 
+    const getUserTweetElement = () => {
+        if (error)
+            return (<p className="info-paragraph">{error.message}</p>);
+        else if (tweets.length)
+            return tweets.map(tweet => (<TweetCard key={tweet.timestamp} tweet={tweet}></TweetCard>));
+        else
+            return (<p className="info-paragraph">No Tweets</p>);
+    }
+
     return (
-        <div>
+        <>
             {
-               error ? 
-                (<p className="info-paragraph">{error.message}</p>) : 
-                (tweets.length ? 
-                    tweets.map(tweet => (<TweetCard key={tweet.timestamp} tweet={tweet}></TweetCard>)) : 
-                    (<p className="info-paragraph">No Tweets</p>))
+               getUserTweetElement()
             }
-        </div>
+        </>
     )
 }

@@ -41,8 +41,9 @@
 }
 
 .tweet-container {
-  flex: 1 1 auto;
-  padding: 10px;
   display: flex;
-  align-items: flex-end;
+  flex: 1 1 auto;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 10px;
 }
