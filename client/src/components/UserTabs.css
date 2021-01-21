@@ -1,0 +1,26 @@
+.user-tabs {
+    display: flex;
+    background: #252525;
+    align-items: center;
+}
+
+.user-tab {
+    flex: 1 1 auto;
+    padding: 10px;
+    color: white;
+    text-align: center;
+}
+
+.user-tab:hover {
+    background: #999;
+    cursor: pointer;
+}
+
+.no-users:hover {
+    background: #252525;
+    cursor: default;
+}
+
+.user-tab.selected-tab {
+    background: #888;
+}

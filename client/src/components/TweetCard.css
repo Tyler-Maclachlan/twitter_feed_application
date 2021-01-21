@@ -1,0 +1,27 @@
+.tweet-card {
+    display: flex;
+    padding: 5px 10px;
+    background: #252525;
+    color: white;
+    margin: 5px 0;
+    border-radius: 5px;
+    align-items: center;
+}
+
+.tweet-user {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-width: 150px;
+    padding: 5px;
+}
+
+.tweet-user-name, .tweet-timestamp {
+    text-align: left;
+}
+
+.tweet-text {
+    flex: 1 1 auto;
+    text-align: left;
+    padding: 5px 20px;
+}
