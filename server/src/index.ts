@@ -1,6 +1,6 @@
 import { getArgs, validateArgs } from './utils';
 import { TwitterService } from './services/TwitterService';
-import express from 'express';
+import express, { Request, Response, NextFunction} from 'express';
 import cors from 'cors';
 
 const app = express();
@@ -19,7 +19,7 @@ app.use((_, res, next) => {
     );
     res.header("Access-Control-Allow-Credentials", "true");
     next();
-})
+});
 
 const startTwitterFeedService = async () => {
     const args = getArgs();
@@ -36,32 +36,33 @@ const startTwitterFeedService = async () => {
         await twitterService.readFiles();
         twitterService.printToConsole();
     } catch (error) {
-        console.log(`Error reading files: ${error}`);
+        console.log(`${error}`);
     }
 
     app.use('/users', async (_, res, next) => {
-        if (twitterService.isValid)
+        if (twitterService.isValid) {
             res.json(twitterService.users);
-        else
-            res.status(500).json('Error getting users');
-        next();
+            next();
+        }
+        else {
+            next(new Error('Error getting users'));
+        }
     });
 
     app.use('/tweets/:username', async (req, res, next) => {
         if (!twitterService.isValid)
-            res.status(500).json('Error getting tweets');
+            next('Error getting tweets');
         else {
             const username = req.params.username;
 
             try {
                 const tweets = twitterService.getUserTweets(username);
                 res.json(tweets);
+                next();
             } catch (error) {
-                res.status(404).json('User does not exist');
+                next(error);
             }
         }
-
-        next();
     });
 
     app.use('/following/:username', async (req, res, next) => {
@@ -71,10 +72,18 @@ const startTwitterFeedService = async () => {
             const following = twitterService.getUserFollowing(username);
             res.json(following);
         } catch (error) {
-            res.status(404).json('User does not exist');
-        } finally {
-            next();
+            next(error);
         }
+    });
+
+    app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+        if (res.headersSent) {
+            next(err);
+        }
+        if (process.env.NODE_ENV !== 'production') {
+            console.log(err);
+        }
+        res.status(500).send(err.message);
     });
 }
 

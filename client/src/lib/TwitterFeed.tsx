@@ -33,11 +33,11 @@ function useProvideTwitterFeed(): ITwitterFeedContext {
     const getUsers = async (): Promise<void> => {
         try {
             const users = await fetch(`${API_URL}/users`)
-                .then(res => {
+                .then(async res => {
                     if (res.ok)
                         return res.json();
                     else
-                        throw new Error('Error getting users');
+                        throw new Error(await res.text());
                 });
             
             setUsers(users);
@@ -48,11 +48,11 @@ function useProvideTwitterFeed(): ITwitterFeedContext {
 
     const getTweets = async (username: string): Promise<ITweet[]> => {
         const tweets = await fetch(`${API_URL}/tweets/${username}`)
-            .then(res => {
+            .then(async res => {
                 if (res.ok)
                     return res.json();
                 else
-                    throw new Error('Error getting tweets');
+                    throw new Error(await res.text());
             });
 
         return tweets;
