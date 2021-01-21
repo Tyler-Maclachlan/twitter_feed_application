@@ -27,4 +27,5 @@ You can also run :
 
 
 **Client:**
-`cd client && npm run start`
+
+    cd client && npm run start
