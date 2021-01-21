@@ -40,8 +40,6 @@ function useProvideTwitterFeed(): ITwitterFeedContext {
                         throw new Error('Error getting users');
                 });
             
-            users.push('Invalid User Test');
-            
             setUsers(users);
         } catch (error) {
             console.log(`${error}`);
